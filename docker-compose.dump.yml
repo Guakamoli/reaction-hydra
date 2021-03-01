@@ -1,0 +1,19 @@
+version: '3.4'
+
+networks:
+  reaction:
+    external:
+      name: reaction.localhost
+
+services:
+  pgdump:
+    image: postgres:10.3
+    environment:
+      - PG_URL=postgresql://hydra:changeme@postgres:5432/hydra
+    command: pg_dump --dbname=$PG_URL > /backup/hydra.sql
+    volumes:
+      - /opt/pg/dump:/backup
+    networks:
+      - default
+      - reaction
+
